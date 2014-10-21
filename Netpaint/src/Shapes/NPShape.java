@@ -1,7 +1,10 @@
 package Shapes;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Shape;
 
 /**
  * 
@@ -13,6 +16,7 @@ public abstract class NPShape {
 	private Point startPt;
 	private Point endPt;
 	private Color color;
+	private Shape explicit;
 	
 	/**
 	 * Superclass constructor
@@ -25,6 +29,12 @@ public abstract class NPShape {
 		this.endPt = end;
 	}
 
+	public void setExplicitShape(Shape e){
+		this.explicit = e;
+	}
+	public Shape getExplicitShape(){
+		return explicit;
+	}
 	public Point getStartPt(){
 		return this.startPt;
 	}
@@ -38,5 +48,5 @@ public abstract class NPShape {
 	/**
 	 * Describe how shape is drawn in Frame
 	 */
-	public abstract void draw();
+	public abstract void draw(Graphics2D g);
 }
