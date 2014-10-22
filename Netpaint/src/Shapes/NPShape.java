@@ -27,6 +27,7 @@ public abstract class NPShape {
 	public NPShape(Point start, Point end, Color color){
 		this.startPt = start;
 		this.endPt = end;
+		this.color = color;
 	}
 
 	public void setExplicitShape(Shape e){

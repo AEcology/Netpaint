@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import Model.Canvas;
 import Shapes.NPShape;
@@ -53,6 +55,7 @@ public class NetpaintGUI extends JFrame{
 		shapeListener = new ShapeListener();
 		canvas = new Canvas();
 		pallette = new JColorChooser();
+		pallette.getSelectionModel().addChangeListener(new PalletteListener());
 		canvasView = new JScrollPane(canvas);
 		this.setTitle("SR Netpaint!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,12 +92,28 @@ public class NetpaintGUI extends JFrame{
 		this.add(shapePanel, BorderLayout.PAGE_START);
 		this.add(pallette, BorderLayout.PAGE_END);
 		
-		
 		this.setVisible(true);
 	}
 		
 		
-	
+	/**
+	 * A listener object used for detecting changes of selection in a color pallete
+	 */
+	class PalletteListener implements ChangeListener {
+		
+		/**
+		 * This method is called whenever a user changes their selection on the color pallete. 
+		 * The Canvas is updated accordingly.
+		 */		
+	    public void stateChanged(ChangeEvent e) {  	
+	    	canvas.setColor(pallette.getColor());
+	    }	
+	}
+
+	/**
+	 * A listener object for detecting changes made to the shape selection button. 
+	 * The canvas is updated accordingly
+	 */
 	private class ShapeListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {

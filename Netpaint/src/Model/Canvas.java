@@ -65,6 +65,10 @@ public class Canvas extends JPanel{
 		System.out.println("DEBUG: Draw " + currDrawMode + " mode");
 	}
 	
+	public void setColor(Color c){
+		currColor = c;
+	}
+	
 	/**
 	 * Add a new shape to the Canvas arraylist of NPShapes <br>
 	 * Shapes are added to canvas once the user has finished painting it
