@@ -46,6 +46,7 @@ public class Canvas extends JPanel{
 	
 	public Canvas(){
 		super();
+		shapesOnScreen = new ArrayList<NPShape>();
 		currColor = Color.WHITE;
 		currentlyDrawing = false;
 		setBackground(Color.WHITE);
@@ -87,8 +88,9 @@ public class Canvas extends JPanel{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		//TODO: Fix this (freezes)
-		//for(NPShape s:shapesOnScreen)
-			//s.draw(g);
+		for(NPShape s:shapesOnScreen)
+			s.draw(g);
+		
 		if (currentlyDrawing && shapeBeingDrawn!=null)
 			shapeBeingDrawn.draw(g);
 	}
@@ -122,6 +124,7 @@ public class Canvas extends JPanel{
 			}
 			else{
 				//TODO: Add shapeBeingDrawn to arrayList & stop drawing
+				shapesOnScreen.add(shapeBeingDrawn);
 				currentlyDrawing = false;
 			}
 		}
