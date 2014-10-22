@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -42,11 +45,11 @@ public class NetpaintGUI extends JFrame{
 	private static String rectangleString = "Rectangle";
 	private static String imageString = "Image";
 	
-	private String currDrawMode = "Line";
-	private NPShape shapeBeingDrawn;
 	
 	//Main functionality
 	public NetpaintGUI(){
+		//Mouse
+		
 		shapeListener = new ShapeListener();
 		canvas = new Canvas();
 		pallette = new JColorChooser();
@@ -80,8 +83,8 @@ public class NetpaintGUI extends JFrame{
 		shapePanel.add(rectangleButton);
 		shapePanel.add(imageButton);
 		
+		canvas.setDrawMode(pallette.getColor(), lineString);
 		
-
 		this.add(canvasView, BorderLayout.CENTER);
 		this.add(shapePanel, BorderLayout.PAGE_START);
 		this.add(pallette, BorderLayout.PAGE_END);
@@ -89,13 +92,13 @@ public class NetpaintGUI extends JFrame{
 		
 		this.setVisible(true);
 	}
+		
+		
 	
 	private class ShapeListener implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			currDrawMode = e.getActionCommand();
-			System.out.println("DEBUG: Draw " + currDrawMode + " mode");
+			canvas.setDrawMode(pallette.getColor(), e.getActionCommand());
 		}		
 	}
 	

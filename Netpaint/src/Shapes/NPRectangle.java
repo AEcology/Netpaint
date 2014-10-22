@@ -19,8 +19,23 @@ public class NPRectangle extends NPShape{
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-				g.draw(this.getExplicitShape());
+	public void draw(Graphics g) {
+		//((Graphics2D)g).draw(this.getExplicitShape());
+		int upperLeftX = (int)Math.min(getStartPt().getX(), getEndPt().getX());
+		int upperLeftY = (int)Math.min(getStartPt().getY(), getEndPt().getY());
+		int lowerRightX = (int)Math.max(getStartPt().getX(), getEndPt().getX());
+		int lowerRightY = (int)Math.max(getStartPt().getY(), getEndPt().getY());
+		g.setColor(this.getColor());
+		g.fillRect(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY));
+	}
+
+	@Override
+	public void updateExplicitShape() {
+		int upperLeftX = (int)Math.min(getStartPt().getX(), getEndPt().getX());
+		int upperLeftY = (int)Math.min(getStartPt().getY(), getEndPt().getY());
+		int lowerRightX = (int)Math.max(getStartPt().getX(), getEndPt().getX());
+		int lowerRightY = (int)Math.max(getStartPt().getY(), getEndPt().getY());
+		this.setExplicitShape(new Rectangle2D.Double(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY)));
 	}
 
 }

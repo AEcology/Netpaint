@@ -41,12 +41,24 @@ public abstract class NPShape {
 	public Point getEndPt(){
 		return this.endPt;
 	}
+	public void setEndPt(Point newPt){
+		this.endPt = newPt;
+		updateExplicitShape();
+	}
 	public Color getColor(){
 		return this.color;
+	}
+	public void setColor(Color c){
+		this.color = c;
 	}
 	
 	/**
 	 * Describe how shape is drawn in Frame
 	 */
-	public abstract void draw(Graphics2D g);
+	public abstract void draw(Graphics g);
+	/**
+	 * Update the explicit shape model in response to a change
+	 * Specifically, call super.setExplicitShape with new shape
+	 */
+	public abstract void updateExplicitShape();
 }
