@@ -19,7 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
+import Shapes.NPImage;
 import Shapes.NPLine;
+import Shapes.NPOval;
 import Shapes.NPRectangle;
 import Shapes.NPShape;
 
@@ -87,7 +89,7 @@ public class Canvas extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		//TODO: Fix this (freezes)
+		//TODO: This is throwing a null pointer exception
 		for(NPShape s:shapesOnScreen)
 			s.draw(g);
 		
@@ -105,16 +107,16 @@ public class Canvas extends JPanel{
 			if (!currentlyDrawing){
 				switch(currDrawMode){
 					case("Line"):
-						//TODO
+						shapeBeingDrawn = new NPLine(new Point(newX,newY), new Point(newX,newY), currColor);
 						break;
 					case("Rectangle"):
 						shapeBeingDrawn = new NPRectangle(new Point(newX,newY), new Point(newX,newY), currColor);
 						break;
 					case("Oval"):
-						//TODO:
+						shapeBeingDrawn = new NPOval(new Point(newX,newY), new Point(newX,newY), currColor);
 						break;
 					case("Image"):
-						//TODO:
+						shapeBeingDrawn = new NPImage(new Point(newX,newY), new Point(newX,newY), currColor);
 						break;
 					default:
 						shapeBeingDrawn = null;
@@ -122,8 +124,9 @@ public class Canvas extends JPanel{
 				}
 				currentlyDrawing = true;
 			}
+			
+			//Add shapeBeingDrawn to arrayList & stop drawing
 			else{
-				//TODO: Add shapeBeingDrawn to arrayList & stop drawing
 				shapesOnScreen.add(shapeBeingDrawn);
 				currentlyDrawing = false;
 			}

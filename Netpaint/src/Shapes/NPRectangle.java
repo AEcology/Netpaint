@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-//TODO: Adjust for color fill: (g.fillRect())
 public class NPRectangle extends NPShape{
 	
 	public NPRectangle(Point start, Point end, Color color) {
