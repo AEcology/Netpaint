@@ -19,12 +19,12 @@ public class NPLine extends NPShape{
 	@Override
 	public void draw(Graphics g) {
 		//((Graphics2D)g).draw(this.getExplicitShape());
-		int upperLeftX = (int)Math.min(getStartPt().getX(), getEndPt().getX());
-		int upperLeftY = (int)Math.min(getStartPt().getY(), getEndPt().getY());
-		int lowerRightX = (int)Math.max(getStartPt().getX(), getEndPt().getX());
-		int lowerRightY = (int)Math.max(getStartPt().getY(), getEndPt().getY());
+		int upperLeftX = (int)(getStartPt().getX());
+		int upperLeftY = (int)(getStartPt().getY());
+		int lowerRightX = (int)(getEndPt().getX());
+		int lowerRightY =  (int)(getEndPt().getY());
 		g.setColor(this.getColor());
-		g.drawLine(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY));
+		g.drawLine(upperLeftX, upperLeftY, lowerRightX, lowerRightY);
 	}
 
 	@Override
