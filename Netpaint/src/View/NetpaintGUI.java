@@ -1,17 +1,10 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
@@ -22,13 +15,17 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Model.Canvas;
-import Shapes.NPShape;
 /**
- * @author Anthony Rodriguez, Jonathan Snavely
- *	The main super GUI for the Netpaint program view
- *	Includes "main"
- *  SR (Snavely, Rodriguez) Paint!
+ *  SR (Snavely, Rodriguez) Paint!<br>
+ * 
+ *	NetpaintGUI is the frame for the Netpaint program view.
+ *  Contains a drawing canvas, a selectable color pallette, and private inner classes
+ *  to support {@link ActionListener} for radio select buttons, and {@link ChangeListener} for pallette color selection. 
+ *  Inclused main method. 
+ *  @author Anthony Rodriguez, Jonathan Snavely<br>
+ *  
  */
+@SuppressWarnings("serial")
 public class NetpaintGUI extends JFrame{
 	private Canvas canvas; 
 	private JColorChooser pallette;
@@ -36,7 +33,6 @@ public class NetpaintGUI extends JFrame{
 	
 	private ShapeListener shapeListener;
 	private JPanel shapePanel;
-	private JPanel drawPanel;
 	private ButtonGroup buttons;
 	private JRadioButton lineButton;
 	private JRadioButton ovalButton;
@@ -48,10 +44,12 @@ public class NetpaintGUI extends JFrame{
 	private static String imageString = "Image";
 	
 	
-	//Main functionality
+	/**
+	 * Constructor arranges the components on the JFrame, and assigns listeners to the color pallette and 
+	 * buttons.
+	 */
 	public NetpaintGUI(){
-		//Mouse
-		
+
 		shapeListener = new ShapeListener();
 		canvas = new Canvas();
 		pallette = new JColorChooser();
@@ -97,12 +95,12 @@ public class NetpaintGUI extends JFrame{
 		
 		
 	/**
-	 * A listener object used for detecting changes of selection in a color pallete
+	 * A listener object used for detecting changes of selection in a color pallette
 	 */
 	class PalletteListener implements ChangeListener {
 		
 		/**
-		 * This method is called whenever a user changes their selection on the color pallete. 
+		 * This method is called whenever a user changes their selection on the color pallette. 
 		 * The Canvas is updated accordingly.
 		 */		
 	    public void stateChanged(ChangeEvent e) {  	
@@ -112,7 +110,7 @@ public class NetpaintGUI extends JFrame{
 
 	/**
 	 * A listener object for detecting changes made to the shape selection button. 
-	 * The canvas is updated accordingly
+	 * The canvas is updated accordingly.
 	 */
 	private class ShapeListener implements ActionListener{
 		@Override

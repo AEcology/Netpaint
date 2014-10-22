@@ -1,23 +1,16 @@
 package Model;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 
 import Shapes.NPImage;
 import Shapes.NPLine;
@@ -27,25 +20,28 @@ import Shapes.NPShape;
 
 /**
  * @author Anthony Rodriguez, Jonathan Snavely <br>
- * Canvas GUI <br>
- * Also acts as the action listener for {@link Shape} radio buttons
+ * Canvas JPanel <br>
+ * Contains a drawing canvas, a selectable color pallette, and private inner classes
+ * to support {@link MouseListener}, and {@link actionListener} for {@link Shape} radio buttons
  */
 @SuppressWarnings("serial")
 public class Canvas extends JPanel{
-	/*
-	 * What we need: scrollable JPanel portion, with shape selectors at the bottom
-	 */
-	
+
 	//Mouse variables
-	private int oldX, oldY, newX, newY;
+	private int newX, newY;
 	private boolean currentlyDrawing;
 	
-	
+	//User state variables
 	private String currDrawMode = "Line";
 	private Color currColor;
 	private NPShape shapeBeingDrawn;
+	
+	//Previously drawn shapes (need to have to overlap old shapes with new)
 	private ArrayList<NPShape> shapesOnScreen;
 	
+	/**
+	 * Adding appropriate mouse listeners, and adjusting settings for the JPanel look.
+	 */
 	public Canvas(){
 		super();
 		shapesOnScreen = new ArrayList<NPShape>();
@@ -59,8 +55,8 @@ public class Canvas extends JPanel{
 		this.addMouseMotionListener(motionmListener);
 	}
 
-	/**Inform canvas what color and shape the GUI
-	 * is configured to draw 
+	/**
+	 * Inform the canvas what color and shape are selected by the user
 	 */
 	public void setDrawMode(Color c, String type){
 		currDrawMode = type;
@@ -89,21 +85,32 @@ public class Canvas extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		//TODO: This is throwing a null pointer exception
+		
+		//Re-draw previously drawn shapes
 		for(NPShape s:shapesOnScreen)
 			s.draw(g);
 		
+		/**
+		 * Draw if a shape is selected and only one mouse button click. This means that as the user moves the mouse
+		 * cursor around the shape will be drawn according to the mouse position. 
+		 */
 		if (currentlyDrawing && shapeBeingDrawn!=null)
 			shapeBeingDrawn.draw(g);
 	}
 	
+	/**
+	 * A mouse listener class that triggers a shape to start drawing upon the detection of the first mouse click. The shape
+	 * stops drawing upon the second. Additionally if one mouse click has happened, a mouse motion listener forces the current
+	 * shape on the canvas to be redrawn to scale.
+	 */
 	private class MouseListen implements MouseMotionListener, MouseListener{
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			newX = arg0.getX();
 			newY = arg0.getY();
-			System.out.println(newX + " Clicked " + newY);
+			
+			//On first mouse click, create the shape to start drawing
 			if (!currentlyDrawing){
 				switch(currDrawMode){
 					case("Line"):
@@ -125,7 +132,7 @@ public class Canvas extends JPanel{
 				currentlyDrawing = true;
 			}
 			
-			//Add shapeBeingDrawn to arrayList & stop drawing
+			//On second mouse click, add shapeBeingDrawn to arrayList & stop drawing
 			else{
 				shapesOnScreen.add(shapeBeingDrawn);
 				currentlyDrawing = false;
@@ -134,37 +141,34 @@ public class Canvas extends JPanel{
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			// Unimplemented	
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			// Unimplemented
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			// Unimplemented
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			// Unimplemented
 		}
 
 		@Override
 		public void mouseDragged(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			// Unimplemented
 		}
 
+		/**
+		 * Redraw the current shape if only 1 mouse click has happened.
+		 */
 		@Override
 		public void mouseMoved(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 	        newX = arg0.getX();
 	        newY = arg0.getY();
 	        if (currentlyDrawing && shapeBeingDrawn!=null){

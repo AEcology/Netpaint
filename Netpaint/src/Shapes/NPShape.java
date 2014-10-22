@@ -2,15 +2,15 @@ package Shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
 
 /**
+ * Abstract superclass to all shapes
+ * NP: "NetPaint", used so that names don't overlap with actual Java Shapes.
+ * Contains {@link Point} and {@link Color} properties, which can be altered through getters and setters.
  * 
  * @author Anthony Rodriguez, Jonathan Snavely
- * Abstract superclass to all shapes
- * NP: "NetPaint", used so that names don't overlap with actual Java Shapes
  */
 public abstract class NPShape {
 	private Point startPt;
@@ -20,9 +20,9 @@ public abstract class NPShape {
 	
 	/**
 	 * Superclass constructor
-	 * @param start: where shape draw began
-	 * @param end: where shape draw ended
-	 * @param color: color used to draw
+	 * @param <strong>start:</strong> Point where shape draw began
+	 * @param <strong>end:</strong> Point where shape draw ended
+	 * @param <strong>color:</strong> Color used to draw
 	 */
 	public NPShape(Point start, Point end, Color color){
 		this.startPt = start;

@@ -2,12 +2,23 @@ package Shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Class NPRectangle. Inherits draw and updateExplicitShape methods from superclass {@link NPShape}.<br>
+ * This class draws a rectangle shape using specified Points and Colors. 
+ * 
+ * @author Anthony Rodriguez, Jonathan Snavely
+ */
 public class NPRectangle extends NPShape{
 	
+	/**
+	 * Sets coordinates to be drawn, as well as the color.
+	 * @param <strong>start:</strong> Point where shape draw began
+	 * @param <strong>end:</strong> Point where shape draw ended
+	 * @param <strong>color:</strong> Color used to draw
+	 */
 	public NPRectangle(Point start, Point end, Color color) {
 		super(start, end, color);
 		int upperLeftX = (int)Math.min(start.getX(), end.getX());
@@ -17,6 +28,9 @@ public class NPRectangle extends NPShape{
 		this.setExplicitShape(new Rectangle2D.Double(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY)));
 	}
 
+	/**
+	 * Uses the graphics object to draw a rectangle shape using {@link NPRectangle} attributes
+	 */
 	@Override
 	public void draw(Graphics g) {
 		//((Graphics2D)g).draw(this.getExplicitShape());
@@ -28,6 +42,9 @@ public class NPRectangle extends NPShape{
 		g.fillRect(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY));
 	}
 
+	/**
+	 * Used to update the coordinates of the {@link NPRectangle}
+	 */
 	@Override
 	public void updateExplicitShape() {
 		int upperLeftX = (int)Math.min(getStartPt().getX(), getEndPt().getX());

@@ -10,9 +10,21 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class NPImage. Inherits draw and updateExplicitShape methods from superclass {@link NPShape}.<br>
+ * This class draws an image using specified Points. 
+ * 
+ * @author Anthony Rodriguez, Jonathan Snavely
+ */
 public class NPImage extends NPShape{
 	BufferedImage dogImage;
 
+	/**
+	 * Sets coordinates to be drawn.
+	 * @param <strong>start:</strong> Point where shape draw began
+	 * @param <strong>end:</strong> Point where shape draw ended
+	 * @param <strong>color:</strong> Color used to draw
+	 */
 	public NPImage(Point start, Point end, Color color) {
 		super(start, end, color);
 		int upperLeftX = (int)Math.min(start.getX(), end.getX());
@@ -29,6 +41,9 @@ public class NPImage extends NPShape{
 		}
 	}
 
+	/**
+	 * Uses the graphics object to draw an image using {@link NPImage} attributes
+	 */
 	@Override
 	public void draw(Graphics g) {
 		//((Graphics2D)g).draw(this.getExplicitShape());
@@ -39,6 +54,9 @@ public class NPImage extends NPShape{
 		g.drawImage(dogImage, upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY), null);
 	}
 
+	/**
+	 * Used to update the coordinates of the {@link NPImage}
+	 */
 	@Override
 	public void updateExplicitShape() {
 		int upperLeftX = (int)Math.min(getStartPt().getX(), getEndPt().getX());
