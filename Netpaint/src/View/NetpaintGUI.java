@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JColorChooser;
@@ -15,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Model.Canvas;
+import Shapes.NPShape;
 /**
  *  SR (Snavely, Rodriguez) Paint!<br>
  * 
@@ -118,8 +120,18 @@ public class NetpaintGUI extends JFrame{
 			canvas.setDrawMode(pallette.getColor(), e.getActionCommand());
 		}		
 	}
-	
-	public static void main(String[] args){
-		new NetpaintGUI();
+
+	/**
+	 * Update GUI with shapes list <br>
+	 * Called from server/client communication thread
+	 * @param shapes
+	 */
+	public void update(ArrayList<NPShape> shapes) {
+		// TODO Auto-generated method stub
+		
 	}
+	
+	//public static void main(String[] args){
+	//	new NetpaintGUI();
+	//}
 }

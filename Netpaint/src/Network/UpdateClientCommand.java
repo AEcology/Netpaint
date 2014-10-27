@@ -1,16 +1,21 @@
 package Network;
 
+import java.util.ArrayList;
+
+import Shapes.NPShape;
+
 /**
  * 
  * @author Anthony Rodriguez
  *	Created whenever server object list changes. Execute on client, replaces list of objects in GUI with list sent from server
  */
-public class UpdateClientCommand extends Command{
-
+public class UpdateClientCommand extends Command<NPClient>{
+	
+	private ArrayList<NPShape> shapes;
+	
 	@Override
-	void execute(Object executeOn) {
-		// TODO Auto-generated method stub
-		
+	void execute(NPClient executeOn) {
+		executeOn.update(shapes);		
 	}
 
 }
