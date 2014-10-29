@@ -73,8 +73,7 @@ public class Canvas extends JPanel{
 	 * Shapes are added to canvas once the user has finished painting it
 	 * @param shape: The {@link NPShape} to add to the canvas (permanently!)
 	 */
-	@SuppressWarnings("unused")
-	private void addShape(NPShape shape){
+	public void addShape(NPShape shape){
 		shapesOnScreen.add(shape);
 		repaint();
 	}
@@ -176,6 +175,17 @@ public class Canvas extends JPanel{
 	        	repaint();
 	        }
 		}
+	}
+
+	/**
+	 * Update shapesOnScreen private variable.<br>
+	 * Allows drawing of all shapes on screen.
+	 * Overloads existing update function
+	 * @param shapes
+	 */
+	public void update(ArrayList<NPShape> shapes) {
+		this.shapesOnScreen = shapes;
+		repaint();
 	}
 
 }

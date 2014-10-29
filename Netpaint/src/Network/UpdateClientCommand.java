@@ -13,6 +13,10 @@ public class UpdateClientCommand extends Command<NPClient>{
 	
 	private ArrayList<NPShape> shapes;
 	
+	public UpdateClientCommand(ArrayList<NPShape> newShapeArry){
+		this.shapes = newShapeArry;
+	}
+	
 	@Override
 	void execute(NPClient executeOn) {
 		executeOn.update(shapes);		

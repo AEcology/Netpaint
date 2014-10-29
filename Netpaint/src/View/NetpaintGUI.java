@@ -122,13 +122,21 @@ public class NetpaintGUI extends JFrame{
 	}
 
 	/**
+	 * Used by subclasses to obtain reference to internal canvas object
+	 * @return
+	 */
+	protected Canvas getCanvas(){
+		return this.canvas;
+	}
+	
+	/**
 	 * Update GUI with shapes list <br>
-	 * Called from server/client communication thread
+	 * Called from server/client communication thread.<br>
+	 * Relays shapes array to Canvas
 	 * @param shapes
 	 */
 	public void update(ArrayList<NPShape> shapes) {
-		// TODO Auto-generated method stub
-		
+		canvas.update(shapes);		
 	}
 	
 	//public static void main(String[] args){
