@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -29,10 +32,11 @@ import Shapes.NPShape;
  */
 @SuppressWarnings("serial")
 public class NetpaintGUI extends JFrame{
+
+	//For canvasGUI
 	private Canvas canvas; 
 	private JColorChooser pallette;
 	private JScrollPane canvasView;
-	
 	private ShapeListener shapeListener;
 	private JPanel shapePanel;
 	private ButtonGroup buttons;
@@ -45,13 +49,101 @@ public class NetpaintGUI extends JFrame{
 	private static String rectangleString = "Rectangle";
 	private static String imageString = "Image";
 	
+	//For loginGUI
+	private JButton submit;
+	private JPanel textView;
+	private JTextField IPAddressField;
+	private JTextField portField;
+	private JTextField usernameField;
+	private String IPAddress;
+	private String port;
+	private String username;
+	
 	
 	/**
 	 * Constructor arranges the components on the JFrame, and assigns listeners to the color pallette and 
 	 * buttons.
 	 */
 	public NetpaintGUI(){
+		setupLoginGUI();
+	}
+	
+		
+	/**
+	 * This method is invoked to layout the beginning log in screen, which includes fields to enter IP address and 
+	 * port of the server, and their username.
+	 */
+	public void setupLoginGUI(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(300,200);
+		setLocation(200,100);	
+		setLayout(new BorderLayout());
+		setTitle("Connect to Server!");
+		initializeVariables();
+		
+		textView.setLayout(new GridLayout(3,2));
+		textView.add(new JLabel("IP ADDRESS"));
+		textView.add(IPAddressField);
+		textView.add(new JLabel("PORT NUMBER"));
+		textView.add(portField);
+		textView.add(new JLabel("USERNAME"));
+		textView.add(usernameField);		
+		
+		add(textView, BorderLayout.CENTER);
+		add(submit, BorderLayout.SOUTH);
+		
+		//add(new StartupView(), BorderLayout.CENTER);
+		this.setVisible(true);
+	}
+	
+	/**
+	 * Initialize everything but the add commands
+	 */
+	public void initializeVariables(){
+		submit = new JButton("Submit");
+		textView = new JPanel();
+		IPAddressField = new JTextField();
+		portField = new JTextField();
+		usernameField = new JTextField();
+		submit.addActionListener(new ButtonListener());
+	}
+	
+	/**
+	 * Listener class for the submit button
+	 */
+	private class ButtonListener implements ActionListener{
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//TODO: verify all fields filled properly
+			
+			//TODO: send username String to the server
+			IPAddress = IPAddressField.getText();
+			port = portField.getText();
+			username = usernameField.getText();
+			
+			//Do not continue if empty field still exists
+			if(IPAddress.equals("") || port.equals("") || username.equals("")){
+				System.out.println("Empty field");
+				return;
+			}	
+			System.out.println(IPAddressField.getText());
+			System.out.println(portField.getText());
+			System.out.println(usernameField.getText());
+			setupCanvasGUI();
+		}	
+	}	
+	
+	
+	/**
+	 * This method is invoked after the user has finished with the startup screen
+	 */
+	public void setupCanvasGUI(){
+		//Destroy old window
+		remove(textView);
+		remove(submit);
+				
+		//Create new view
 		shapeListener = new ShapeListener();
 		canvas = new Canvas();
 		pallette = new JColorChooser();
@@ -92,9 +184,9 @@ public class NetpaintGUI extends JFrame{
 		this.add(shapePanel, BorderLayout.PAGE_START);
 		this.add(pallette, BorderLayout.PAGE_END);
 		
-		this.setVisible(true);
+		this.setVisible(true);	
 	}
-		
+
 		
 	/**
 	 * A listener object used for detecting changes of selection in a color pallette
@@ -139,7 +231,7 @@ public class NetpaintGUI extends JFrame{
 		canvas.update(shapes);		
 	}
 	
-	//public static void main(String[] args){
-	//	new NetpaintGUI();
-	//}
+	public static void main(String[] args){
+		new NetpaintGUI();
+	}
 }

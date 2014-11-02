@@ -8,6 +8,22 @@ import View.NetpaintGUI;
 public class NPClient extends NetpaintGUI{
 
 	
+	public NPClient(){
+		layoutLogin();
+		
+		
+		
+	}
+	
+	
+	
+	private void layoutLogin() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 	/**
 	 * Relay shape array to model once Client recieves update Command from server.
 	 * @param shapes

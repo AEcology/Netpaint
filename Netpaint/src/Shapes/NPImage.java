@@ -21,10 +21,10 @@ public class NPImage extends NPShape{
 
 	/**
 	 * Sets coordinates to be drawn.
-	 * @param <strong>start:</strong> Point where shape draw began
-	 * @param <strong>end:</strong> Point where shape draw ended
-	 * @param <strong>color:</strong> Color used to draw
-	 */
+	 * @param start: Point where shape draw began
+	 * @param end: Point where shape draw ended
+	 * @param color: Color used to draw
+	 */	
 	public NPImage(Point start, Point end, Color color) {
 		super(start, end, color);
 		int upperLeftX = (int)Math.min(start.getX(), end.getX());

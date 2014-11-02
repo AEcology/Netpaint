@@ -33,7 +33,6 @@ public class NPServer extends NetpaintGUI{
 				System.out.println("Server online");
 				new Thread(new ClientAccepter()).start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -58,15 +57,12 @@ public class NPServer extends NetpaintGUI{
 						//TODO: Check if com is DisconnectCommand Class
 						//		if it is, then return
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
-			
 		}
 		
 		/**
@@ -82,11 +78,10 @@ public class NPServer extends NetpaintGUI{
 						ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 						String clientName = (String) in.readObject();
 						outputs.put(clientName, out);
-						new Thread(new ClientAccepter()).start();
+						new Thread(new ClientAccepter()).start();	//TODO: Client Handler instead?
 					} catch (IOException e) {
 						e.printStackTrace();
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

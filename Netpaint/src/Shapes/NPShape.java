@@ -20,9 +20,9 @@ public abstract class NPShape {
 	
 	/**
 	 * Superclass constructor
-	 * @param <strong>start:</strong> Point where shape draw began
-	 * @param <strong>end:</strong> Point where shape draw ended
-	 * @param <strong>color:</strong> Color used to draw
+	 * @param start: Point where shape draw began
+	 * @param end: Point where shape draw ended
+	 * @param color: Color used to draw
 	 */
 	public NPShape(Point start, Point end, Color color){
 		this.startPt = start;
@@ -55,6 +55,7 @@ public abstract class NPShape {
 	
 	/**
 	 * Describe how shape is drawn in Frame
+	 * @param g: Graphics object
 	 */
 	public abstract void draw(Graphics g);
 	/**
