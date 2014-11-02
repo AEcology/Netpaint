@@ -21,7 +21,4 @@ public class AddObjectCommand extends Command<NPServer>{
 		// TODO Auto-generated method stub
 		executeOn.update(shape);
 	}
-
-
-
 }

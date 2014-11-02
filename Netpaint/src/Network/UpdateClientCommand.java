@@ -9,7 +9,7 @@ import Shapes.NPShape;
  * @author Anthony Rodriguez
  *	Created whenever server object list changes. Execute on client, replaces list of objects in GUI with list sent from server
  */
-public class UpdateClientCommand extends Command<NPClient>{
+public class UpdateClientCommand extends Command<NetpaintGUI>{
 	
 	private ArrayList<NPShape> shapes;
 	
@@ -18,7 +18,7 @@ public class UpdateClientCommand extends Command<NPClient>{
 	}
 	
 	@Override
-	void execute(NPClient executeOn) {
+	void execute(NetpaintGUI executeOn) {
 		executeOn.update(shapes);		
 	}
 

@@ -1,9 +1,12 @@
-package View;
+package Network;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -61,8 +64,7 @@ public class NetpaintGUI extends JFrame{
 	
 	
 	/**
-	 * Constructor arranges the components on the JFrame, and assigns listeners to the color pallette and 
-	 * buttons.
+	 * Constructor arranges the components on the JFrame for the initial login screen
 	 */
 	public NetpaintGUI(){
 		setupLoginGUI();
@@ -92,7 +94,6 @@ public class NetpaintGUI extends JFrame{
 		add(textView, BorderLayout.CENTER);
 		add(submit, BorderLayout.SOUTH);
 		
-		//add(new StartupView(), BorderLayout.CENTER);
 		this.setVisible(true);
 	}
 	
@@ -109,15 +110,14 @@ public class NetpaintGUI extends JFrame{
 	}
 	
 	/**
-	 * Listener class for the submit button
+	 * Listener class for the submit button. If fields are valid, will create separate thread for Server communication.
 	 */
 	private class ButtonListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//TODO: verify all fields filled properly
+			//TODO: verify all fields filled properly, aka ints can be converted from Strings
 			
-			//TODO: send username String to the server
 			IPAddress = IPAddressField.getText();
 			port = portField.getText();
 			username = usernameField.getText();
@@ -127,14 +127,50 @@ public class NetpaintGUI extends JFrame{
 				System.out.println("Empty field");
 				return;
 			}	
+			
 			System.out.println(IPAddressField.getText());
 			System.out.println(portField.getText());
 			System.out.println(usernameField.getText());
+			
+			//Show netpaint GUI view
 			setupCanvasGUI();
+			
+			//Set up separate thread for handling input from server
+			new Thread(new ServerHandler()).start();
+
 		}	
 	}	
 	
 	
+	/**
+	 * Class for monitoring input received from the server
+	 */
+	private class ServerHandler implements Runnable{
+
+		@Override
+		public void run() {
+			try{
+				//Server connect
+				Socket socket = new Socket(IPAddress, Integer.parseInt(port));
+				ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+				Command<NetpaintGUI> command;
+				
+				//Write username to server TODO: this might need to be send as Command object
+				output.writeObject(username);
+				
+				while(true){
+					command = (Command<NetpaintGUI>)input.readObject();
+					command.execute(NetpaintGUI.this);
+				}
+					
+			} catch(Exception e){
+				e.printStackTrace();
+			}		
+		}	
+	}
+	
+
 	/**
 	 * This method is invoked after the user has finished with the startup screen
 	 */

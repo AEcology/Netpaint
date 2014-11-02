@@ -133,6 +133,7 @@ public class Canvas extends JPanel{
 			
 			//On second mouse click, add shapeBeingDrawn to arrayList & stop drawing
 			else{
+				//TODO: send
 				shapesOnScreen.add(shapeBeingDrawn);
 				currentlyDrawing = false;
 			}
