@@ -17,8 +17,6 @@ import javax.imageio.ImageIO;
  * @author Anthony Rodriguez, Jonathan Snavely
  */
 public class NPImage extends NPShape{
-	BufferedImage dogImage;
-
 	/**
 	 * Sets coordinates to be drawn.
 	 * @param start: Point where shape draw began
@@ -32,13 +30,6 @@ public class NPImage extends NPShape{
 		int lowerRightX = (int)Math.max(start.getX(), end.getX());
 		int lowerRightY = (int)Math.max(start.getY(), end.getY());
 		this.setExplicitShape(new Rectangle2D.Double(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY)));
-		dogImage = null;
-		try {
-			dogImage = ImageIO.read(new File("Doggie.jpg"));
-		} 
-		catch (IOException e) {
-			System.out.println("This shouldn't have happened");
-		}
 	}
 
 	/**
@@ -46,7 +37,14 @@ public class NPImage extends NPShape{
 	 */
 	@Override
 	public void draw(Graphics g) {
-		//((Graphics2D)g).draw(this.getExplicitShape());
+		BufferedImage dogImage = null;
+		try {
+			dogImage = ImageIO.read(new File("Doggie.jpg"));
+		} 
+		catch (IOException e) {
+			System.out.println("This shouldn't have happened");
+		}
+		
 		int upperLeftX = (int)Math.min(getStartPt().getX(), getEndPt().getX());
 		int upperLeftY = (int)Math.min(getStartPt().getY(), getEndPt().getY());
 		int lowerRightX = (int)Math.max(getStartPt().getX(), getEndPt().getX());
