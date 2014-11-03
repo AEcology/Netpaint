@@ -24,10 +24,12 @@ public class NPServer{
 	//but it allows support of multiple clients
 	private HashMap<String, ObjectOutputStream> outputs;
 	private ArrayList<NPShape> shapes;
+	private ArrayList<ObjectOutputStream> connected;
 
 	public NPServer(){
 		outputs = new HashMap<String, ObjectOutputStream>();
 		shapes = new ArrayList<NPShape>();
+		connected = new ArrayList<ObjectOutputStream>();
 
 		try {
 			socket = new ServerSocket(9010);
@@ -51,7 +53,8 @@ public class NPServer{
 			this.client = client;		
 			try{
 				output = new ObjectOutputStream(client.getOutputStream());
-				input = new ObjectInputStream(client.getInputStream());						
+				input = new ObjectInputStream(client.getInputStream());	
+				connected.add(output);
 			} catch(Exception e){
 				e.printStackTrace();
 			}
@@ -85,7 +88,11 @@ public class NPServer{
 					
 					//Then send the copy to all connected clients
 					System.out.println("Server list size: " + shapes.size());
-					output.writeObject(new UpdateClientCommand(copy));
+					for(ObjectOutputStream o: connected){
+						o.writeObject(new UpdateClientCommand(copy));
+					}
+					//Write to single client
+					//output.writeObject(new UpdateClientCommand(copy));
 
 					//TODO: Check if com is DisconnectCommand Class
 					//		if it is, then return

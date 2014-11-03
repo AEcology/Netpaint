@@ -66,5 +66,3 @@ public class NPImage extends NPShape{
 		this.setExplicitShape(new Rectangle2D.Double(upperLeftX, upperLeftY, (lowerRightX-upperLeftX), (lowerRightY-upperLeftY)));
 	}
 }
-
-
