@@ -63,10 +63,15 @@ public class NPServer{
 		@Override
 		public void run() {
 			
-			//Waiting for username to be sent
+			
 			try {
+				//Waiting for username to be sent
 				Command<NPServer> username = (Command<NPServer>)input.readObject();
 				username.execute(NPServer.this);
+				
+				//Initializing the new client with the master shape list
+				output.writeObject(new UpdateClientCommand(getCopyMasterList()));
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -129,6 +134,18 @@ public class NPServer{
 	 */
 	public void disconnect(String clientName){
 		//TODO
+	}
+	
+	/**
+	 * Create copy of the master shape list
+	 */
+	public ArrayList<NPShape> getCopyMasterList(){
+		ArrayList<NPShape> copy = new ArrayList<NPShape>(shapes.size());
+		for(NPShape shape: shapes){
+			copy.add(shape);
+		}
+		
+		return copy;
 	}
 
 	/**
