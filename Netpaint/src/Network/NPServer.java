@@ -77,9 +77,15 @@ public class NPServer{
 					//Add a shape to the currently existing list of shapes. Note this will work for beginning username command too.
 					com.execute(NPServer.this);
 
-					//Then send the newly updated list of shapes to all connected clients
+					//Create copy of the new shape list
+					ArrayList<NPShape> copy = new ArrayList<NPShape>(shapes.size());
+					for(NPShape shape: shapes){
+						copy.add(shape);
+					}
+					
+					//Then send the copy to all connected clients
 					System.out.println("Server list size: " + shapes.size());
-					output.writeObject(new UpdateClientCommand(shapes));
+					output.writeObject(new UpdateClientCommand(copy));
 
 					//TODO: Check if com is DisconnectCommand Class
 					//		if it is, then return
