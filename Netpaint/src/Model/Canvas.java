@@ -197,6 +197,7 @@ public class Canvas extends JPanel{
 	 */
 	public void update(ArrayList<NPShape> shapes) {
 		this.shapesOnScreen = shapes;
+		System.out.println("Client list size: " + shapes.size());
 		repaint();	//TODO: Might need to add shape being drawn to this end of this, otherwise will be lost
 	}
 

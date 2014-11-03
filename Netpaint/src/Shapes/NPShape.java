@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Shape;
+import java.io.Serializable;
 
 /**
  * Abstract superclass to all shapes
@@ -12,7 +13,7 @@ import java.awt.Shape;
  * 
  * @author Anthony Rodriguez, Jonathan Snavely
  */
-public abstract class NPShape {
+public abstract class NPShape implements Serializable{
 	private Point startPt;
 	private Point endPt;
 	private Color color;

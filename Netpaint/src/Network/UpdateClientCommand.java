@@ -15,11 +15,12 @@ public class UpdateClientCommand extends Command<NetpaintGUI>{
 	
 	public UpdateClientCommand(ArrayList<NPShape> newShapeArry){
 		this.shapes = newShapeArry;
+		System.out.println("List size in Command constructor " + shapes.size());
 	}
 	
 	@Override
 	void execute(NetpaintGUI executeOn) {
-		executeOn.update(shapes);		
+		System.out.println("List size in Command execute " + shapes.size());		
+		executeOn.update(shapes);
 	}
-
 }

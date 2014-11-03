@@ -161,16 +161,13 @@ public class NetpaintGUI extends JFrame{
 				output = new ObjectOutputStream(socket.getOutputStream());
 				Command<NetpaintGUI> command;
 				
-				//Write username command to server TODO: this may not have to be command actually
+				//Write username command to server
 				output.writeObject(new AddUsernameCommand(username));
-				//output.writeObject(username);
 				
 				//Waiting for input from the server
 				while(true){
-					Object something = input.readObject();
-					System.out.println("I'm reading when I shouldn't be!");
-					//command = (Command<NetpaintGUI>)input.readObject();
-					//command.execute(NetpaintGUI.this);
+					command = (Command<NetpaintGUI>)input.readObject();
+					command.execute(NetpaintGUI.this);
 				}			
 			} catch(Exception e){
 				e.printStackTrace();
@@ -272,6 +269,7 @@ public class NetpaintGUI extends JFrame{
 	 * @param shapes
 	 */
 	public void update(ArrayList<NPShape> shapes) {
+		System.out.println("Got into update GUI!" + shapes.size());
 		canvas.update(shapes);		
 	}
 	

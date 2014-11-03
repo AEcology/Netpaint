@@ -73,19 +73,17 @@ public class NPServer{
 				try {
 					//Waiting for new shape to be added
 					Command<NPServer> com = (Command<NPServer>)input.readObject();
-					System.out.println("got here");
 
 					//Add a shape to the currently existing list of shapes. Note this will work for beginning username command too.
 					com.execute(NPServer.this);
 
 					//Then send the newly updated list of shapes to all connected clients
+					System.out.println("Server list size: " + shapes.size());
 					output.writeObject(new UpdateClientCommand(shapes));
 
 					//TODO: Check if com is DisconnectCommand Class
 					//		if it is, then return
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}	
 			}
@@ -103,13 +101,8 @@ public class NPServer{
 					//Wait for new connections, create new handler when new connection connects
 					Socket s = socket.accept();
 					new Thread(new ClientHandler(s)).start();
-					
-//					ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-//					ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-//					String clientName = (String) in.readObject();
-//					System.out.println(clientName + " logged onto the server!");
 //					//outputs.put(clientName, out);	//TODO: Is this necessary?
-//					new Thread(new ClientHandler(s)).start();	
+	
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -130,7 +123,8 @@ public class NPServer{
 	 * @param shape
 	 */
 	public void update(NPShape shape) {
-		shapes.add(shape);			
+		System.out.println("Update Shape!");
+		shapes.add(shape);		
 	}
 
 	/**
