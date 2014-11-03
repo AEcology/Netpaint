@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import Shapes.NPShape;
 
 
@@ -58,9 +59,21 @@ public class NPServer{
 
 		@Override
 		public void run() {
+			
+			//Waiting for username to be sent
+			try {
+				Command<NPServer> username = (Command<NPServer>)input.readObject();
+				username.execute(NPServer.this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 			while(true){
 				try {
+					//Waiting for new shape to be added
 					Command<NPServer> com = (Command<NPServer>)input.readObject();
+					System.out.println("got here");
 
 					//Add a shape to the currently existing list of shapes. Note this will work for beginning username command too.
 					com.execute(NPServer.this);
@@ -87,15 +100,17 @@ public class NPServer{
 		public void run() {
 			while(true){
 				try {
+					//Wait for new connections, create new handler when new connection connects
 					Socket s = socket.accept();
-					ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-					ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-					String clientName = (String) in.readObject();
-					outputs.put(clientName, out);
-					new Thread(new ClientHandler(s)).start();	
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
+					new Thread(new ClientHandler(s)).start();
+					
+//					ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+//					ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+//					String clientName = (String) in.readObject();
+//					System.out.println(clientName + " logged onto the server!");
+//					//outputs.put(clientName, out);	//TODO: Is this necessary?
+//					new Thread(new ClientHandler(s)).start();	
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

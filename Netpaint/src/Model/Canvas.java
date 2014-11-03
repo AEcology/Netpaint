@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Network.AddObjectCommand;
+import Network.NetpaintGUI;
 import Shapes.NPImage;
 import Shapes.NPLine;
 import Shapes.NPOval;
@@ -38,6 +40,9 @@ public class Canvas extends JPanel{
 	
 	//Previously drawn shapes (need to have to overlap old shapes with new)
 	private ArrayList<NPShape> shapesOnScreen;
+	
+	//Connected GUI
+	private NetpaintGUI gui;
 	
 	/**
 	 * Adding appropriate mouse listeners, and adjusting settings for the JPanel look.
@@ -66,6 +71,10 @@ public class Canvas extends JPanel{
 	
 	public void setColor(Color c){
 		currColor = c;
+	}
+	
+	public void registerGUI(NetpaintGUI gui){
+		this.gui = gui;
 	}
 	
 	/**
@@ -133,8 +142,10 @@ public class Canvas extends JPanel{
 			
 			//On second mouse click, add shapeBeingDrawn to arrayList & stop drawing
 			else{
-				//TODO: send
-				shapesOnScreen.add(shapeBeingDrawn);
+				//TODO: send AddObjectCommand to the server
+				System.out.println(shapeBeingDrawn == null);
+				gui.sendCommand(new AddObjectCommand(shapeBeingDrawn));
+				//shapesOnScreen.add(shapeBeingDrawn);
 				currentlyDrawing = false;
 			}
 		}

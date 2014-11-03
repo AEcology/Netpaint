@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -61,6 +62,10 @@ public class NetpaintGUI extends JFrame{
 	private String IPAddress;
 	private String port;
 	private String username;
+	private Socket socket;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
+	
 	
 	
 	/**
@@ -98,7 +103,7 @@ public class NetpaintGUI extends JFrame{
 	}
 	
 	/**
-	 * Initialize everything but the add commands
+	 * Initialize everything but the add commands for the login gui
 	 */
 	public void initializeVariables(){
 		submit = new JButton("Submit");
@@ -151,19 +156,22 @@ public class NetpaintGUI extends JFrame{
 		public void run() {
 			try{
 				//Server connect
-				Socket socket = new Socket(IPAddress, Integer.parseInt(port));
-				ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+				socket = new Socket(IPAddress, Integer.parseInt(port));
+				input = new ObjectInputStream(socket.getInputStream());
+				output = new ObjectOutputStream(socket.getOutputStream());
 				Command<NetpaintGUI> command;
 				
-				//Write username to server TODO: this might need to be send as Command object
-				output.writeObject(username);
+				//Write username command to server TODO: this may not have to be command actually
+				output.writeObject(new AddUsernameCommand(username));
+				//output.writeObject(username);
 				
+				//Waiting for input from the server
 				while(true){
-					command = (Command<NetpaintGUI>)input.readObject();
-					command.execute(NetpaintGUI.this);
-				}
-					
+					Object something = input.readObject();
+					System.out.println("I'm reading when I shouldn't be!");
+					//command = (Command<NetpaintGUI>)input.readObject();
+					//command.execute(NetpaintGUI.this);
+				}			
 			} catch(Exception e){
 				e.printStackTrace();
 			}		
@@ -182,6 +190,7 @@ public class NetpaintGUI extends JFrame{
 		//Create new view
 		shapeListener = new ShapeListener();
 		canvas = new Canvas();
+		canvas.registerGUI(this);
 		pallette = new JColorChooser();
 		pallette.getSelectionModel().addChangeListener(new PalletteListener());
 		canvasView = new JScrollPane(canvas);
@@ -258,9 +267,8 @@ public class NetpaintGUI extends JFrame{
 	}
 	
 	/**
-	 * Update GUI with shapes list <br>
-	 * Called from server/client communication thread.<br>
-	 * Relays shapes array to Canvas
+	 * Called upon execution of the UpdateClientCommand. 
+	 * Update canvas with master shapes list <br>
 	 * @param shapes
 	 */
 	public void update(ArrayList<NPShape> shapes) {
@@ -269,5 +277,17 @@ public class NetpaintGUI extends JFrame{
 	
 	public static void main(String[] args){
 		new NetpaintGUI();
+	}
+
+	/**
+	 * Called by Canvas when it finishes drawing a shape. This sends an UpdateObjectCommand to the server.
+	 * @param addObjectCommand
+	 */
+	public void sendCommand(AddObjectCommand addObjectCommand) {
+		try {
+			output.writeObject(addObjectCommand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
