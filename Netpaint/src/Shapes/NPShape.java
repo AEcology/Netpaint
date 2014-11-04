@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @author Anthony Rodriguez, Jonathan Snavely
  */
 public abstract class NPShape implements Serializable{
+
 	private Point startPt;
 	private Point endPt;
 	private Color color;

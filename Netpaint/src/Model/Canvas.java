@@ -201,7 +201,4 @@ public class Canvas extends JPanel{
 		repaint();	//TODO: Might need to add shape being drawn to this end of this, otherwise will be lost
 	}
 	
-	public void drawImage(){
-		
-	}
 }

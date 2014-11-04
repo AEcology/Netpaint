@@ -13,27 +13,27 @@ import Shapes.NPShape;
 
 /**
  * 
+ * <br>Runnable backend program for Netpaint server.<br>
+ * Note: NPServer does not have a GUI because it is unnecessary for supporting multiple {@link NetpaintGUI} clients.<br>
  * @author Anthony Rodriguez, Jonathan Snavely
- * Server functions
- *
  */
 public class NPServer{
 	private ServerSocket socket;
 	//Map client names to their respective ouputstreams
 	//This may not be necessary for our implementation,
 	//but it allows support of multiple clients
-	private HashMap<String, ObjectOutputStream> outputs;
+	//private HashMap<String, ObjectOutputStream> outputs;
 	private ArrayList<NPShape> shapes;
 	private ArrayList<ObjectOutputStream> connected;
 
 	public NPServer(){
-		outputs = new HashMap<String, ObjectOutputStream>();
+		//outputs = new HashMap<String, ObjectOutputStream>();
 		shapes = new ArrayList<NPShape>();
 		connected = new ArrayList<ObjectOutputStream>();
 
 		try {
 			socket = new ServerSocket(9010);
-			System.out.println("Server online");
+			System.out.println("Server online. Waiting for clients...");
 			new Thread(new ClientAccepter()).start();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -78,6 +78,7 @@ public class NPServer{
 			
 			
 			while(true){
+				int removeIdx = -1;
 				try {
 					//Waiting for new shape to be added
 					Command<NPServer> com = (Command<NPServer>)input.readObject();
@@ -85,6 +86,15 @@ public class NPServer{
 					//Add a shape to the currently existing list of shapes. Note this will work for beginning username command too.
 					com.execute(NPServer.this);
 
+					if (com instanceof DisconnectCommand){
+						for(int i=0; i<connected.size(); ++i){
+							if (connected.get(i)==output){
+								connected.remove(i);
+								return;
+							}
+						}
+					}
+					
 					//Create copy of the new shape list
 					ArrayList<NPShape> copy = new ArrayList<NPShape>(shapes.size());
 					for(NPShape shape: shapes){
@@ -102,6 +112,7 @@ public class NPServer{
 					//TODO: Check if com is DisconnectCommand Class
 					//		if it is, then return
 				} catch (Exception e) {
+					//If we find corrupted streams, remove them (in lieu of disconnect functionality)
 					e.printStackTrace();
 				}	
 			}
@@ -129,11 +140,13 @@ public class NPServer{
 	}
 
 	/**
-	 * Disconnect from client (TODO)
+	 * Disconnect from client (TODO)<br>
+	 * This is unimplemented because of class instruction.<br>
+	 * Leaving it here as a reminder in case we come back to it later.
 	 * @param clientName
 	 */
 	public void disconnect(String clientName){
-		//TODO
+		//Not implemented
 	}
 	
 	/**

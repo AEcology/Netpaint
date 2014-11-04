@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,12 +27,14 @@ import javax.swing.event.ChangeListener;
 import Model.Canvas;
 import Shapes.NPShape;
 /**
- *  SR (Snavely, Rodriguez) Paint!<br>
+ *  NetPaint!<br>
  * 
+ *  Class that serves as client for Netpaint. <br> Note: {@link Server} does not have a GUI since it is not
+ *  necessary for it to support multiple clients. <br>
  *	NetpaintGUI is the frame for the Netpaint program view.
  *  Contains a drawing canvas, a selectable color pallette, and private inner classes
  *  to support {@link ActionListener} for radio select buttons, and {@link ChangeListener} for pallette color selection. 
- *  Inclused main method. 
+ *  
  *  @author Anthony Rodriguez, Jonathan Snavely<br>
  *  
  */
@@ -109,7 +113,10 @@ public class NetpaintGUI extends JFrame{
 		submit = new JButton("Submit");
 		textView = new JPanel();
 		IPAddressField = new JTextField();
+		IPAddressField.setText("127.0.0.1");
 		portField = new JTextField();
+		portField.setText("9010");
+		System.out.println("Default server port 9010");
 		usernameField = new JTextField();
 		submit.addActionListener(new ButtonListener());
 	}
@@ -227,6 +234,17 @@ public class NetpaintGUI extends JFrame{
 		this.add(pallette, BorderLayout.PAGE_END);
 		
 		this.setVisible(true);	
+		
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				try{
+					output.writeObject(new DisconnectCommand(username));
+				} catch(Exception e2){
+					e2.printStackTrace();
+				}
+			}
+			
+		});
 	}
 
 		

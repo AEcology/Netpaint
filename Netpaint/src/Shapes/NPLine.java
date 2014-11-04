@@ -13,6 +13,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class NPLine extends NPShape{
 
+
+
 	/**
 	 * Sets coordinates to be drawn, as well as the color.
 	 * @param start: Point where shape draw began

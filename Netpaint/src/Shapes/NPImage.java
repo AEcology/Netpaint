@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
  * @author Anthony Rodriguez, Jonathan Snavely
  */
 public class NPImage extends NPShape{
+
+
 	/**
 	 * Sets coordinates to be drawn.
 	 * @param start: Point where shape draw began
